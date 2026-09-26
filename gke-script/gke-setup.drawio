@@ -1,0 +1,70 @@
+<mxfile host="app.diagrams.net" modified="2026-09-26T14:36:00.000Z" agent="gke-script" version="24.0.0" type="device">
+  <diagram id="gke-setup" name="GKE dev setup">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1150" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="op" value="Operator laptop&lt;br&gt;gcloud / kubectl / docker&lt;br&gt;(public IP /32)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#5F6368;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="220" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="inet" value="Internet&lt;br&gt;(Docker Hub, apt,&lt;br&gt;cloudflared)" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#5F6368;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="900" y="60" width="180" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="gapi" value="Google APIs&lt;br&gt;(pkg.dev, gcr.io)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#5F6368;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="900" y="230" width="180" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="proj" value="GCP project (us-central1) — created by gke-deploy.sh" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F0FE;strokeColor=#4285F4;verticalAlign=top;fontSize=13;fontStyle=1;container=1;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="180" width="840" height="600" as="geometry" />
+        </mxCell>
+        <mxCell id="vpc" value="dev-vpc (custom subnet mode)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#34A853;verticalAlign=top;fontSize=12;fontStyle=1;container=1;collapsible=0;" vertex="1" parent="proj">
+          <mxGeometry x="40" y="60" width="560" height="500" as="geometry" />
+        </mxCell>
+        <mxCell id="subnet" value="dev-subnet 10.0.0.0/20 — Private Google Access&lt;br&gt;secondary ranges: pods 10.4.0.0/14 · services 10.8.0.0/20" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6F4EA;strokeColor=#34A853;verticalAlign=top;fontSize=11;fontStyle=1;container=1;collapsible=0;" vertex="1" parent="vpc">
+          <mxGeometry x="40" y="60" width="480" height="270" as="geometry" />
+        </mxCell>
+        <mxCell id="cp" value="GKE control plane&lt;br&gt;dev-cluster&lt;br&gt;zonal us-central1-a&lt;br&gt;public endpoint (no HA)" style="sketch=0;html=1;verticalAlign=top;labelPosition=center;verticalLabelPosition=bottom;align=center;fontSize=11;fontStyle=0;fontColor=#000000;aspect=fixed;pointerEvents=1;shape=mxgraph.gcp3.gke;fillColor=#4285f4;" vertex="1" parent="subnet">
+          <mxGeometry x="60" y="40" width="80" height="88" as="geometry" />
+        </mxCell>
+        <mxCell id="nodegrp" value="Private nodes&lt;br&gt;(no external IPs)&lt;br&gt;autoscaling 2..5" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF7E0;strokeColor=#FBBC04;verticalAlign=top;fontSize=11;fontStyle=1;container=1;collapsible=0;" vertex="1" parent="subnet">
+          <mxGeometry x="250" y="70" width="210" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="node1" value="e2-medium&lt;br&gt;node" style="sketch=0;html=1;verticalAlign=top;labelPosition=center;verticalLabelPosition=bottom;align=center;fontSize=10;fontStyle=0;fontColor=#000000;aspect=fixed;pointerEvents=1;shape=mxgraph.gcp3.computeengine;fillColor=#4285f4;" vertex="1" parent="nodegrp">
+          <mxGeometry x="22" y="70" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="node2" value="e2-medium&lt;br&gt;node" style="sketch=0;html=1;verticalAlign=top;labelPosition=center;verticalLabelPosition=bottom;align=center;fontSize=10;fontStyle=0;fontColor=#000000;aspect=fixed;pointerEvents=1;shape=mxgraph.gcp3.computeengine;fillColor=#4285f4;" vertex="1" parent="nodegrp">
+          <mxGeometry x="117" y="70" width="60" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="nat" value="Cloud NAT dev-nat&lt;br&gt;Cloud Router dev-router" style="sketch=0;html=1;verticalAlign=top;labelPosition=center;verticalLabelPosition=bottom;align=center;fontSize=11;fontStyle=0;fontColor=#000000;aspect=fixed;pointerEvents=1;shape=mxgraph.gcp3.networking;fillColor=#9aa0a6;" vertex="1" parent="vpc">
+          <mxGeometry x="140" y="380" width="50" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="vpc-icon" value="" style="sketch=0;html=1;verticalAlign=top;labelPosition=center;verticalLabelPosition=bottom;align=center;fontSize=11;fontStyle=0;fontColor=#000000;aspect=fixed;pointerEvents=1;shape=mxgraph.gcp3.networking;fillColor=#9aa0a6;" vertex="1" parent="vpc">
+          <mxGeometry x="12" y="10" width="24" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="ar" value="Artifact Registry&lt;br&gt;api-images (docker)&lt;br&gt;image streaming on&lt;br&gt;node SA: artifactregistry.reader" style="sketch=0;html=1;verticalAlign=top;labelPosition=center;verticalLabelPosition=bottom;align=center;fontSize=11;fontStyle=0;fontColor=#000000;aspect=fixed;pointerEvents=1;shape=mxgraph.gcp3.containers;fillColor=#9aa0a6;" vertex="1" parent="proj">
+          <mxGeometry x="695" y="110" width="55" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="kubectl&lt;br&gt;(master authorized networks = MY_IP/32)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;strokeColor=#4285F4;strokeWidth=2;exitX=0.5;exitY=1;entryX=0.25;entryY=0;" edge="1" parent="1" source="op" target="cp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="docker push" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;strokeColor=#4285F4;strokeWidth=2;exitX=1;exitY=0.5;entryX=0.5;entryY=0;" edge="1" parent="1" source="op" target="ar">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="manages" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;strokeColor=#5F6368;dashed=1;" edge="1" parent="1" source="cp" target="nodegrp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="egress" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;strokeColor=#EA4335;strokeWidth=2;" edge="1" parent="1" source="nodegrp" target="nat">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="SNAT" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;strokeColor=#EA4335;strokeWidth=2;exitX=1;exitY=0.5;entryX=0.5;entryY=1;" edge="1" parent="1" source="nat" target="inet">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="image pulls via Private Google Access&lt;br&gt;(bypasses NAT, free)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;strokeColor=#34A853;strokeWidth=2;dashed=1;exitX=1;exitY=0.25;entryX=0;entryY=0.5;" edge="1" parent="1" source="nodegrp" target="ar">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" value="served over Google network" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;strokeColor=#34A853;dashed=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="ar" target="gapi">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
